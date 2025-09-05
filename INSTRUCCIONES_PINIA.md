@@ -1,3 +1,25 @@
+### Instrucciones para instalar Pinia
+
+Para que la funcionalidad de autenticación funcione correctamente, necesitas instalar Pinia en tu proyecto. Sigue estos pasos:
+
+1. Instala Pinia usando npm:
+```bash
+npm install pinia
+```
+
+2. Luego, agrega Pinia a tu archivo main.ts:
+
+```typescript
+import { createPinia } from 'pinia'
+
+// Después de crear la aplicación:
+const pinia = createPinia()
+app.use(pinia)
+```
+
+3. El archivo main.ts debería verse así (añade las líneas marcadas con "+"):
+
+```typescript
 import './assets/main.css'
 // Import Swiper styles
 import 'swiper/css'
@@ -8,14 +30,12 @@ import 'flatpickr/dist/flatpickr.css'
 import 'simplebar-vue/dist/simplebar.min.css'
 
 import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query'
++ import { createPinia } from 'pinia'
 
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import VueApexCharts from 'vue3-apexcharts'
-import { createPinia } from 'pinia'
-
-const pinia = createPinia()
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -26,11 +46,13 @@ const queryClient = new QueryClient({
     }
 })
 const app = createApp(App)
-app.use(pinia)
 app.use(VueQueryPlugin, { queryClient })
 
++ const pinia = createPinia()
++ app.use(pinia)
 
 app.use(router)
 app.use(VueApexCharts)
+```
 
-app.mount('#app')
+Una vez instalado Pinia, la página de login funcionará correctamente.

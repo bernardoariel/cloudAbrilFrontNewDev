@@ -463,6 +463,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/login',
+      name: 'ClienteLogin',
+      component: () => import('../views/Auth/Login.vue'),
+      meta: {
+        title: 'Iniciar Sesión Cliente',
+      },
+    },
+    {
       path: '/signup',
       name: 'Signup',
       component: () => import('../views/Auth/Signup.vue'),
