@@ -72,10 +72,8 @@ const codCliente = computed(() => {
   return userData.value?.codCliente;
 })
 
-// Obtener la información del contacto solo si hay un código de cliente
-const { clienteContacto } = codCliente.value
-  ? useClienteContacto(codCliente.value)
-  : { clienteContacto: null }
+// Obtener la información del contacto basado en el código de cliente
+const { clienteContacto } = useClienteContacto(codCliente.value || '')
 
 
 const dropdownOpen = ref(false)
