@@ -37,6 +37,9 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 defineProps({
   item: {
     type: Object,
@@ -46,7 +49,6 @@ defineProps({
 
 const verCuotas = (codCredito: string) => {
   console.log('Ver cuotas del crédito:', codCredito);
-  // Cuando tengas la ruta:
-  // router.push(`/creditos/${codCredito}/cuotas`);
+  router.push(`/creditos/${codCredito}`);
 }
 </script>

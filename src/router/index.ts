@@ -56,6 +56,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/creditos/:codCredito',
+      name: 'Credito-Detalle',
+      component: () => import('../views/Creditos/CreditoDetalle.vue'),
+      meta: {
+        title: 'Detalle de Crédito',
+      },
+    },
+    {
       path: '/saas',
       name: 'SaaS',
       component: () => import('../views/Saas.vue'),
