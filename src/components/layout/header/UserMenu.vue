@@ -59,12 +59,23 @@
 
 <script lang="ts" setup>
 import { UserCircleIcon, ChevronDownIcon, LogoutIcon, SettingsIcon, InfoCircleIcon } from '@/icons'
-import { RouterLink } from 'vue-router'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useClienteContacto } from '@/composables/useClienteContacto'
+import { useAuth } from '@/composables/useAuth'
 
+// Usar el composable de autenticación
+const { userData, logout } = useAuth()
+const codCliente = computed(() => {
+  console.log('UserData en UserMenu:', userData.value);
+  // Si el cliente no está autenticado o no hay código de cliente, no usar valor predeterminado
+  return userData.value?.codCliente;
+})
 
-const { clienteContacto } = useClienteContacto('0101001')
+// Obtener la información del contacto solo si hay un código de cliente
+const { clienteContacto } = codCliente.value
+  ? useClienteContacto(codCliente.value)
+  : { clienteContacto: null }
 
 
 const dropdownOpen = ref(false)
@@ -84,10 +95,13 @@ const closeDropdown = () => {
   dropdownOpen.value = false
 }
 
+const router = useRouter()
 const signOut = () => {
-  // Implement sign out logic here
+  // Usar el composable para cerrar sesión
+  logout()
   console.log('Signing out...')
   closeDropdown()
+  router.push('/login')
 }
 
 const handleClickOutside = (event) => {

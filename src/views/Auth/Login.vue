@@ -136,10 +136,10 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FullScreenLayout from '@/components/layout/FullScreenLayout.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
-const authStore = useAuthStore()
+const { login, isLoading: authLoading, error: authError } = useAuth()
 
 // Estado del formulario
 const codCliente = ref('')
@@ -159,16 +159,16 @@ const handleSubmit = async () => {
     isLoading.value = true
     errorMessage.value = ''
 
-    // Intentar login usando el store
-    const result = await authStore.login(codCliente.value, nroDoc.value)
+    // Intentar login usando el composable
+    const result = await login(codCliente.value, nroDoc.value)
 
-    if (result.success) {
+    if (result && result.success) {
       // Redireccionar al dashboard o página principal
       router.push('/dashcliente')
     } else {
-      errorMessage.value = result.error || 'Error al iniciar sesión. Verifique sus credenciales.'
+      errorMessage.value = result?.error || 'Error al iniciar sesión. Verifique sus credenciales.'
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error en el proceso de login:', error)
     errorMessage.value = 'Ocurrió un error inesperado. Intente nuevamente.'
   } finally {

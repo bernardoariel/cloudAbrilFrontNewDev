@@ -1,79 +1,63 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { apiAbrilSql } from '@/api/apiAbrilSql'
 
-export interface UserState {
-  codCliente: string
-  nroDoc: string
-  token: string | null
-  isAuthenticated: boolean
-  userInfo: any | null
+// Interfaces para la estructura de datos de autenticación
+export interface UserData {
+  codCliente?: string;
+  nroDoc?: string;
+  // Otros campos que puedan venir del usuario
+  [key: string]: unknown;
+}
+
+export interface AuthState {
+  // Indica si el usuario está autenticado
+  isAuthenticated: boolean;
+  // Token de acceso para la API
+  accessToken: string | null;
+  // Datos del usuario (nombre, email, etc)
+  userData: UserData | null;
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<UserState>({
-    codCliente: '',
-    nroDoc: '',
-    token: null,
+  // Un solo estado de autenticación
+  const authState = ref<AuthState>({
     isAuthenticated: false,
-    userInfo: null
+    accessToken: null,
+    userData: null
   })
 
-  const isAuthenticated = computed(() => user.value.isAuthenticated)
-  const userInfo = computed(() => user.value.userInfo)
+  // Getters computados
+  const isAuthenticated = computed(() => authState.value.isAuthenticated)
+  const userData = computed(() => authState.value.userData)
+  const codCliente = computed(() => authState.value.userData?.codCliente || '')
 
-  async function login(codCliente: string, nroDoc: string) {
-    try {
-      const { data } = await apiAbrilSql.post('/login', {
-        codCliente,
-        nroDoc
-      })
-
-      // Si la respuesta es exitosa, guardar los datos del usuario
-      user.value = {
-        codCliente,
-        nroDoc,
-        token: data.token || null, // Asume que la API retorna un token
-        isAuthenticated: true,
-        userInfo: data.user || data // Guarda la información del usuario
-      }
-
-      // Guardar en localStorage para persistencia
-      localStorage.setItem('user', JSON.stringify(user.value))
-
-      return { success: true, data }
-    } catch (error: any) {
-      console.error('Error de login:', error)
-      return {
-        success: false,
-        error: error.response?.data?.message || 'Error al iniciar sesión'
-      }
-    }
+  // Exponer setters para facilitar la actualización del estado
+  function setAuthState(newState: AuthState) {
+    console.log('Actualizando estado de autenticación:', newState);
+    authState.value = newState;
   }
 
   function logout() {
     // Resetear el estado
-    user.value = {
-      codCliente: '',
-      nroDoc: '',
-      token: null,
+    authState.value = {
       isAuthenticated: false,
-      userInfo: null
+      accessToken: null,
+      userData: null
     }
 
     // Eliminar datos de localStorage
-    localStorage.removeItem('user')
+    localStorage.removeItem('authState')
   }
 
   function initialize() {
     // Cargar datos del usuario desde localStorage al iniciar la aplicación
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
+    const storedState = localStorage.getItem('authState')
+    if (storedState) {
       try {
-        const parsedUser = JSON.parse(storedUser)
-        user.value = parsedUser
+        const parsedState = JSON.parse(storedState)
+        authState.value = parsedState
       } catch (e) {
-        console.error('Error al parsear datos del usuario:', e)
+        console.error('Error al parsear datos de autenticación:', e)
         logout() // En caso de error, limpiar datos
       }
     }
@@ -83,10 +67,11 @@ export const useAuthStore = defineStore('auth', () => {
   initialize()
 
   return {
-    user,
+    authState,
     isAuthenticated,
-    userInfo,
-    login,
-    logout
+    userData: computed(() => authState.value.userData),
+    codCliente,
+    logout,
+    setAuthState
   }
 })
