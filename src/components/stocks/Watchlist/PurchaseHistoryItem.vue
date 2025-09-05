@@ -29,14 +29,14 @@
 
     <div class="flex h-[372px] flex-col">
       <div class="flex flex-col h-auto pr-3 overflow-y-auto custom-scrollbar">
-        <WatchlistItem v-for="item in props.items" :key="item.symbol" :item="item" />
+        <PurchaseItem v-for="item in props.items" :key="item.codCredito" :item="item" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import WatchlistItem from './WatchlistItem.vue'
+import PurchaseItem from './PurchaseItem.vue'
 
 
 // import DropdownMenu from '../../common/DropdownMenu.vue'
@@ -46,11 +46,11 @@ import WatchlistItem from './WatchlistItem.vue'
 // ]
 
 interface Props{
-  symbol: string,
-  name:   string,
+  codCredito: string,
+  CantCuotas: string,
   logo:   string,
-  price:  string,
-  change: number,
+  MontoCapital:  string,
+  SaldoCapital: number,
 }
 const props =defineProps<{items:Props[]}>()
 

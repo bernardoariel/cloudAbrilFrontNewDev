@@ -1,4 +1,4 @@
-import FourZeroFour from '@/views/Errors/FourZeroFour.vue'
+// import FourZeroFour from '@/views/Errors/FourZeroFour.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -45,6 +45,14 @@ const router = createRouter({
       component: () => import('../views/Stocks.vue'),
       meta: {
         title: 'Stocks Dashboard',
+      },
+    },
+    {
+      path: '/dashcliente',
+      name: 'Dash-Cliente',
+      component: () => import('../views/DashCliente.vue'),
+      meta: {
+        title: 'Cliente Dashboard',
       },
     },
     {
