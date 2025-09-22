@@ -5,7 +5,7 @@ import type { ClienteCredito } from "@/interface/ClienteCredito"
 
 
 const getClienteCredito = async(codCliente:string):Promise<ClienteCredito[]> =>{
-  const { data } = await apiAbrilSql.get<ClienteCredito[]>(`/clientes-creditos/cliente/${codCliente}`)
+  const { data } = await apiAbrilSql.get<ClienteCredito[]>(`/clientes-creditos/cliente/${codCliente}/con-recibo`)
 
   return data ?? []
 }

@@ -7,18 +7,18 @@
       class="flex items-center justify-between w-full cursor-pointer py-5 px-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-md transition-colors"
     >
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10">
+       <!--  <div class="w-10 h-10">
           <img :src="item.logo" :alt="item.name" />
-        </div>
+        </div> -->
         <div>
-          <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Codigo de Credito: {{ item.codCredito }}</h3>
+          <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Cod. de Credito: {{ item.codCredito }}  - - Cod. de Venta: {{ item.CodVenta }}</h3>
           <span class="block text-gray-500 text-theme-xs dark:text-gray-400">{{ item.CantCuotas }}</span>
         </div>
       </div>
       <div>
         <div>
           <h4 class="mb-1 font-medium text-right text-gray-700 text-theme-sm dark:text-gray-400">
-          Monto de Capital {{ item.MontoCapital }}
+          Fecha de compra: {{ formatDate(item.Fecha) }}
           </h4>
         </div>
         <span
@@ -46,9 +46,17 @@ defineProps({
     required: true,
   },
 })
-
-const verCuotas = (codCredito: string) => {
-  console.log('Ver cuotas del crédito:', codCredito);
-  router.push(`/creditos/${codCredito}`);
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+};
+const verCuotas = (codReciboPr: string) => {
+  console.log('Ver cuotas del crédito:', codReciboPr);
+  router.push(`/recpagprovdet/${codReciboPr}`);
 }
 </script>

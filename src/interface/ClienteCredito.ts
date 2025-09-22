@@ -49,6 +49,7 @@ export interface ClienteCredito {
   EstadoCredito:     number;
   AutorizacionExt:   null;
   ESTADO_ANT:        Estado | null;
+  codReciboPr: string;
 }
 
 export enum Estado {

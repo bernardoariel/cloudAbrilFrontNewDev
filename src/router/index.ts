@@ -56,7 +56,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/creditos/:codCredito',
+      path: '/recpagprovdet/:codReciboPr',
       name: 'Credito-Detalle',
       component: () => import('../views/Creditos/CreditoDetalle.vue'),
       meta: {

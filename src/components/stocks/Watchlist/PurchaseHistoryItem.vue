@@ -29,13 +29,14 @@
 
     <div class="flex h-[372px] flex-col">
       <div class="flex flex-col h-auto pr-3 overflow-y-auto custom-scrollbar">
-        <PurchaseItem v-for="item in props.items" :key="item.codCredito" :item="item" />
+        <PurchaseItem v-for="item in filteredItems" :key="item.codCredito" :item="item" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import PurchaseItem from './PurchaseItem.vue'
 
 
@@ -51,7 +52,14 @@ interface Props{
   logo:   string,
   MontoCapital:  string,
   SaldoCapital: number,
+  CodVenta: string,
+  Fecha: string,
+  codReciboPr:string
 }
 const props =defineProps<{items:Props[]}>()
+const filteredItems = computed(() => {
+  return props.items.filter(item => item.SaldoCapital > 0);
+})
+
 
 </script>

@@ -40,6 +40,9 @@ const items = computed(() => {
       // OJO: tu WatchlistItem parece tratar "change" como %.
       // Si no tenés % real, mandá 0 o calculá: (saldo/monto)*100
       SaldoCapital: c.SaldoCapital,
+      CodVenta: c.CodVenta,
+      Fecha: c.Fecha,
+      codReciboPr:c.codReciboPr
     }
   })
 })
